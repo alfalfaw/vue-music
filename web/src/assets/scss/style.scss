@@ -1,0 +1,198 @@
+@import './mixin';
+@import './variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  /* 14px */
+  font-size: 1.4rem;
+  line-height: 1.5;
+  // 平滑字体
+  -webkit-font-smoothing: antialiased;
+}
+
+// 去除图片默认边框
+img {
+  border: 0;
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+input {
+  outline: none;
+}
+// 浮动
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+
+// 清除浮动
+.clearfix::before,
+.clearfix::after {
+  content: '';
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+// 文本(eg: text-white-1)、背景颜色(eg: bg-white-1)
+@each $colorKey, $color in $colors {
+  .text-#{$colorKey} {
+    color: $color;
+  }
+  .bg-#{$colorKey} {
+    background-color: $color;
+  }
+}
+// 文本对齐方式(eg: text-right)
+@each $var in (left, center, right) {
+  .text-#{$var} {
+    text-align: $var !important;
+  }
+}
+// 字体大小(eg: fs-md)
+@each $sizeKey, $size in $font-sizes {
+  .fs-#{$sizeKey} {
+    font-size: $size * $base-font-size;
+  }
+}
+// 垂直对齐方式
+@each $var in (baseline, top, middle, bottom, text-top, text-bottom) {
+  .align-#{$var} {
+    vertical-align: $var;
+  }
+}
+
+// 字体粗细
+@each $weightKey, $weight in $font-weights {
+  .fw-#{$weightKey} {
+    font-weight: $weight;
+  }
+}
+// 文本溢出显示省略号
+.text-ellipsis {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}
+
+// 宽、高
+.w-100 {
+  width: 100%;
+}
+.h-100 {
+  height: 100%;
+}
+// flex
+.d-flex {
+  display: flex;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-1 {
+  flex: 1;
+}
+// flex 布局子元素水平轴对齐方式(eg: jc-ceneter)
+@each $key, $value in $flex-jc {
+  .jc-#{$key} {
+    justify-content: $value;
+  }
+}
+// flex 布局子元素交叉轴对齐方式(eg: ai-center)
+@each $key, $value in $flex-ai {
+  .ai-#{$key} {
+    align-items: $value;
+  }
+}
+// flex-grow (eg: flex-grow-1)
+@each $size in (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12) {
+  .flex-grow-#{$size} {
+    flex-grow: $size;
+  }
+}
+
+// flex-shrink (eg: flex-shrink-1)
+@each $size in (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12) {
+  .flex-shrink-#{$size} {
+    flex-shrink: $size;
+  }
+}
+
+// flex-basis (eg: flex-basis-0)
+@each $percentKey, $percent in $percents {
+  .flex-basis-#{$percentKey} {
+    flex-basis: $percent;
+  }
+}
+
+// 内边距、外边距
+@each $typeKey, $type in $spacing-types {
+  // 上下左右边距(eg: m-1)
+  @each $sizeKey, $size in $spacing-sizes {
+    .#{$typeKey}-#{$sizeKey} {
+      #{$type}: $size * $spacing-base-size;
+    }
+  }
+  // 上下边距(eg: mx-1) 左右边距(eg: my-1)
+  @each $sizeKey, $size in $spacing-sizes {
+    .#{$typeKey}x-#{$sizeKey} {
+      #{$type}-left: $size * $spacing-base-size;
+      #{$type}-right: $size * $spacing-base-size;
+    }
+    .#{$typeKey}y-#{$sizeKey} {
+      #{$type}-top: $size * $spacing-base-size;
+      #{$type}-bottom: $size * $spacing-base-size;
+    }
+  }
+  // 上、下、左、右边距(eg: mt-1)
+  @each $directionKey, $direction in $directions {
+    @each $sizeKey, $size in $spacing-sizes {
+      .#{$typeKey}#{$directionKey}-#{$sizeKey} {
+        #{$type}-#{$direction}: $size * $spacing-base-size;
+      }
+    }
+  }
+}
+
+// 边框(eg: bt-1)
+@each $dirKey, $dir in $directions {
+  @each $sizeKey, $size in $border-sizes {
+    .b#{$dirKey}-#{$sizeKey} {
+      border-#{$dir}: $size solid $border-color;
+    }
+  }
+}
+
+// 定位
+@each $value in (static, relative, absolute, fixed, sticky) {
+  .pos-#{$value} {
+    position: $value;
+  }
+}
+@each $directionKey, $direction in $directions {
+  @each $posKey, $pos in $pos-sizes {
+    .#{$directionKey}-#{$posKey} {
+      #{$direction}: $pos * $pos-base-size;
+    }
+  }
+}

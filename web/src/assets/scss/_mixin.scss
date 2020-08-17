@@ -1,0 +1,57 @@
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin transition($second) {
+  -webkit-transition: $second;
+  -moz-transition: $second;
+  -ms-transition: $second;
+  -o-transition: $second;
+  transition: $second;
+}
+
+@mixin auto-fit-column($first, $second, $third, $min-width, $gap, $ratio) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+  grid-gap: $gap;
+
+  // #{$first} {
+  //   background: pink;
+  // }
+  #{$second} {
+    // 宽高比
+    padding-bottom: $ratio;
+    position: relative;
+  }
+  #{$third} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@mixin responsive-container($first, $ratio) {
+  position: relative;
+  padding-bottom: $ratio;
+  #{$first} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@mixin text-ellipsis($num) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical; /* autoprefixer: off */
+
+  -webkit-line-clamp: $num; /* autoprefixer: on */
+}
