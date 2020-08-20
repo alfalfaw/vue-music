@@ -1,29 +1,21 @@
 <template>
   <div class="recommend">
-    <scroll :top="top" ref="scroll" :list="hotSongs">
-      <div class="scroll-wrapper">
-        <recommend-swiper
-          @img-load="scrollRefresh"
-          v-if="swiperList.length"
-          :swiper-list="swiperList"
-          :swiper-option="swiperOption"
-        ></recommend-swiper>
-        <song-list :hot-songs="hotSongs"></song-list>
-      </div>
-    </scroll>
+    <div class="scroll-wrapper">
+      <recommend-swiper v-if="swiperList.length" :swiper-list="swiperList" :swiper-option="swiperOption"></recommend-swiper>
+      <song-list :hot-songs="hotSongs"></song-list>
+    </div>
   </div>
 </template>
 
 <script>
 import RecommendSwiper from '@/components/main/recommend/RecommendSwiper'
 import SongList from '@/components/main/recommend/SongList'
-import Scroll from '@/components/common/Scroll'
+
 export default {
   name: 'Recommend',
   components: {
     RecommendSwiper,
-    SongList,
-    Scroll
+    SongList
   },
 
   data() {
@@ -36,15 +28,10 @@ export default {
         loop: true,
         autoplay: true
       },
-      hotSongs: [],
-      top: 74
+      hotSongs: []
     }
   },
   methods: {
-    // 滚动区刷新
-    scrollRefresh() {
-      this.$refs.scroll.refresh()
-    },
     // 获取轮播数据
     async fetchSwiperList() {
       const res = await this.$http.get('recommend/banner')
@@ -70,9 +57,8 @@ export default {
     }
   },
   created() {
-    setTimeout(() => {
-      this.fetchSwiperList()
-    }, 3000)
+    this.fetchSwiperList()
+
     this.fetchHotSongs()
   }
 }

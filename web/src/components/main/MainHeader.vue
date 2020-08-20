@@ -1,23 +1,25 @@
 <template>
   <div class="main-header">
-    <!-- title  -->
-    <div class="title text-primary fs-xxl fw-7 text-center">
-      {{ title }}
-    </div>
-    <!-- title end -->
+    <div class="header-inner">
+      <!-- title  -->
+      <div class="title text-primary fs-xxl fw-7 text-center">
+        {{ title }}
+      </div>
+      <!-- title end -->
 
-    <!-- nav  -->
-    <div class="nav-list">
-      <ul class="d-flex jc-around py-3 text-md text-grey2">
-        <li
-          v-for="item of navList"
-          :key="item.path"
-          :class="{ 'nav-active': item.path === $route.path || (item.path === '/recommend' && $route.path === '/') }"
-          @click="navClick(item.path)"
-        >
-          {{ item.name }}
-        </li>
-      </ul>
+      <!-- nav  -->
+      <div class="nav-list">
+        <ul class="d-flex jc-around py-3 text-md text-grey2">
+          <li
+            v-for="item of navList"
+            :key="item.path"
+            :class="{ 'nav-active': item.path === $route.path || (item.path === '/recommend' && $route.path === '/') }"
+            @click="navClick(item.path)"
+          >
+            {{ item.name }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -67,5 +69,17 @@ export default {
 .nav-active {
   color: map-get($colors, 'primary');
   font-weight: map-get($font-weights, 7);
+}
+
+.main-header {
+  height: 0;
+  padding-bottom: 7.4rem;
+  .header-inner {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 2;
+    background: #fff;
+  }
 }
 </style>

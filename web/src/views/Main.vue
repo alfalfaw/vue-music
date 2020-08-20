@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <main-header title="Function Music" @nav-click="toPath"></main-header>
-    <router-view />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
   </div>
 </template>
 
