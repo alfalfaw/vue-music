@@ -7,7 +7,7 @@
           :key="category.id"
           class="py-1 px-1 mx-2 mt-3"
           :class="{ active: activeIndex[key] === index }"
-          @click="activeIndex[key] = index"
+          @click="categoryClick(key, index)"
         >
           {{ category.name }}
         </li>
@@ -31,6 +31,29 @@ export default {
         genre: 0,
         area: 0
       }
+    }
+  },
+  watch: {
+    // activeIndex: {
+    //   handler(newVal) {
+    //     const data = {}
+    //     Object.keys(this.singerCategory).forEach(key => {
+    //       data[key] = this.singerCategory[key][newVal[key]].id
+    //     })
+    //     this.$emit('select-changed', data)
+    //   },
+    //   deep: true
+    // }
+  },
+  methods: {
+    categoryClick(key, index) {
+      this.activeIndex[key] = index
+      const params = {}
+      for (const key in this.activeIndex) {
+        params[key] = this.singerCategory[key][this.activeIndex[key]].id
+      }
+      // console.log(params)
+      this.$emit('category-click', params)
     }
   }
 }

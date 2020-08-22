@@ -1,7 +1,7 @@
 <template>
   <div class="singer">
-    <singer-category :singer-category="singerCategory"></singer-category>
-    <singer-list></singer-list>
+    <singer-category :singer-category="singerCategory" @category-click="fetchSingerList"></singer-category>
+    <singer-list :list="singerList"></singer-list>
   </div>
 </template>
 
@@ -16,7 +16,8 @@ export default {
   },
   data() {
     return {
-      singerCategory: {}
+      singerCategory: {},
+      singerList: []
     }
   },
   methods: {
@@ -31,15 +32,20 @@ export default {
         area: category.area,
         genre: category.genre
       }
-      console.log(this.singerCategory)
     },
-    async fetchSingerList() {
-      const res = await this.$http.get('/singer/list')
-      console.log(res.data)
+    async fetchSingerList(params) {
+      this.singerList = []
+      const res = await this.$http.get('/singer/list', {
+        params
+      })
+
+      this.singerList = res.data.data.list
+      // console.log(this.singerList)
     }
   },
   created() {
     this.fetchSingerCategory()
+    this.fetchSingerList()
   }
 }
 </script>
