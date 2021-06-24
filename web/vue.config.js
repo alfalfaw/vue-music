@@ -4,7 +4,7 @@ module.exports = {
     host: 'localhost',
     port: 8080,
     https: false, // 没有配置 https
-    //以上的ip和端口是我们本机的;下面为需要跨域的
+    // 以上的ip和端口是我们本机的;下面为需要跨域的
     proxy: {
       // 匹配以 /api 开头请求
       '/api': {
