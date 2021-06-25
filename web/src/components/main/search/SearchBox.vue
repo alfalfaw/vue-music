@@ -38,6 +38,7 @@ export default {
     align-items: center;
     height: 32px;
     border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.03);
     input {
       border: none;
       outline: none;

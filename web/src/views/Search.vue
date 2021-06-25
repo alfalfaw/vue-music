@@ -2,7 +2,7 @@
   <div class="search">
     <search-box :keyword="keyword" @search="fetchSongs" @keyword-change="handleChange" />
     <hot-list @keyword-change="handleChange" :hotKeys="hotKeys" @search="fetchSongs"></hot-list>
-    <search-list :search-list="searchList" />
+    <search-list :isLoading="isLoading" :search-list="searchList" @page-change="handlePageChange" />
   </div>
 </template>
 
@@ -22,7 +22,8 @@ export default {
     return {
       hotKeys: [],
       keyword: '',
-      searchList: []
+      searchList: [],
+      isLoading: false
     }
   },
   created() {
@@ -32,19 +33,25 @@ export default {
     handleChange(keyword) {
       this.keyword = keyword
     },
-    async fetchSongs(key, t = 0) {
-      console.log('打印关键字')
-      console.log(key)
+    handlePageChange(pageNo) {
+      this.fetchSongs(this.keyword, 0, pageNo, false)
+    },
+    async fetchSongs(key, t = 0, pageNo = 1, reset = true) {
       if (!key.trim()) return
+      this.isLoading = true
       const { data: res } = await this.$http.get('/search', {
         params: {
           key,
-          t
+          t,
+          pageNo
         }
       })
-      console.log('打印搜索结果')
-      console.log(res.data)
-      this.searchList = res.data.list
+      if (reset) {
+        this.searchList = res.data.list
+      } else if (this.searchList.length !== res.data.total) {
+        this.searchList = [...this.searchList, ...res.data.list]
+      }
+      this.isLoading = false
     },
     async fetchHotKeys() {
       const { data: res } = await this.$http.get('/search/hot')
@@ -56,9 +63,5 @@ export default {
 
 <style lang="scss" scoped>
 .search {
-  .top-section {
-  }
-  .middle-section {
-  }
 }
 </style>
