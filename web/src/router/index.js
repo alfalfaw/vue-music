@@ -5,6 +5,8 @@ import Recommend from '../views/Recommend'
 import Search from '../views/Search'
 import Singer from '../views/Singer'
 import Rank from '../views/Rank'
+import Player from '../views/Player'
+import Playlist from '../views/Playlist'
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +35,14 @@ const routes = [
       {
         path: '/singer',
         component: Singer
+      },
+      {
+        path: '/player',
+        component: Player
+      },
+      {
+        path: '/playlist',
+        component: Playlist
       }
     ]
   }

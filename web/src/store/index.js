@@ -4,8 +4,19 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    mainNavigationVisible: true
+  },
+  mutations: {
+    // 更新导航栏状态
+    updateMainNav(state, val) {
+      state.mainNavigationVisible = val
+    }
+  },
   actions: {},
-  modules: {}
+  modules: {},
+  getters: {
+    // ...
+    mainNavigationVisible: state => state.mainNavigationVisible
+  }
 })

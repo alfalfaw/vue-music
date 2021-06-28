@@ -5,7 +5,7 @@
       11/99
     </div> -->
     <ul class="songs px-3">
-      <li class="py-2" v-for="item of searchList" :key="item.songid">
+      <li @click="handleClick(item)" class="py-2" v-for="item of searchList" :key="item.songid">
         <div class="d-flex jc-between ai-center">
           <div>
             <h4>{{ item.songname }}</h4>
@@ -55,6 +55,16 @@ export default {
         this.pageNo++
         this.$emit('page-change', this.pageNo)
       }
+    },
+    // 跳转到详情页
+    handleClick(item) {
+      this.$router.push({
+        path: '/player',
+        query: {
+          songmid: item.songmid,
+          songid: item.songid
+        }
+      })
     }
   },
   mounted() {

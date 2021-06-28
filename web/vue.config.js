@@ -5,6 +5,8 @@ module.exports = {
     port: 8080,
     https: false, // 没有配置 https
     // 以上的ip和端口是我们本机的;下面为需要跨域的
+    // 允许通过其他host访问
+    disableHostCheck: true,
     proxy: {
       // 匹配以 /api 开头请求
       '/api': {
