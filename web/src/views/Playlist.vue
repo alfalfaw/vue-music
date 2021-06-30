@@ -1,7 +1,7 @@
 <template>
   <div class="playlist">
     <section class="back-wapper">
-      <back @back="handleBackClick" />
+      <back @back="handleBackClick" :title="title" />
     </section>
     <section>
       <div
@@ -41,7 +41,8 @@ export default {
   },
   data() {
     return {
-      songlist: []
+      songlist: [],
+      title: ''
     }
   },
   created() {
@@ -53,6 +54,13 @@ export default {
       return list => {
         const names = list.map(item => item.name)
         return names.join('/')
+      }
+    },
+    cover() {
+      if (this.songlist.length > 0) {
+        return this.songlist[0].songmid
+      } else {
+        return ''
       }
     }
   },
@@ -66,6 +74,19 @@ export default {
     },
     async fetchSongList() {
       console.log(this.$route.query)
+      //       RECOMMEND: 1,
+      // SINGER: 2,
+      // RANK: 3
+      const map = {
+        // 推荐
+        1: '/songlist',
+        // 歌手
+        2: '/singer/songs',
+        // 榜单详情
+        3: '/top'
+      }
+      console.log(map)
+
       const { data: res } = await this.$http.get('/songlist', {
         params: {
           id: this.$route.query.id
@@ -75,6 +96,7 @@ export default {
       console.log('打印歌单详情')
       console.log(res.data.songlist)
       this.songlist = res.data.songlist
+      this.title = res.data.dissname
     }
   }
 }
@@ -120,7 +142,7 @@ export default {
       margin-top: 10px;
     }
     .order {
-      width: 26px;
+      width: 36px;
       font-size: 24px;
       color: #1a73e8;
     }

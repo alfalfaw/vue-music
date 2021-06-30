@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { PLAYLIST_TYPE } from '@/constants/index'
 export default {
   name: 'SongList',
   props: {
@@ -28,7 +29,8 @@ export default {
       this.$router.push({
         path: '/playlist',
         query: {
-          id: item.id
+          id: item.id,
+          type: PLAYLIST_TYPE.RECOMMEND
         }
       })
     }
