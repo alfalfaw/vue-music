@@ -1,8 +1,8 @@
 <template>
-  <div class="back">
+  <div class="back d-flex">
     <i @click="handleClick" class="iconfont icon-arrow-left"></i>
     <div class="title d-flex ai-center">
-      <marquee behavior="scroll" direction="left">{{ title }}</marquee>
+      {{ title }}
     </div>
   </div>
 </template>
@@ -31,13 +31,7 @@ export default {
     font-size: 30px;
   }
   .title {
-    position: absolute;
     font-size: 20px;
-    top: 50%;
-    width: calc(100% - 35px);
-
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 }
 </style>

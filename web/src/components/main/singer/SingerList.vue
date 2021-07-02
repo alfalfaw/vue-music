@@ -26,7 +26,7 @@ export default {
       this.$router.push({
         path: '/playlist',
         query: {
-          id: item.singer_id,
+          id: item.singer_mid,
           type: PLAYLIST_TYPE.SINGER
         }
       })

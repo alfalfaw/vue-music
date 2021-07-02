@@ -21,8 +21,8 @@
       <ul class="songlist">
         <li class="d-flex ai-start" v-for="(item, index) of songlist" :key="index">
           <div class="order">{{ index + 1 }}</div>
-          <div class="fs-md ml-3">
-            <div class="songname">{{ item.songname }}</div>
+          <div class="fs-md ml-3 flex-1">
+            <div class="songname">{{ nameText(item) }}</div>
             <div class="singer text-grey2">
               {{ singerText(item.singer) }}
             </div>
@@ -34,6 +34,8 @@
 </template>
 <script>
 import Back from '@/components/common/Back'
+import { PLAYLIST_TYPE } from '@/constants/index'
+
 export default {
   name: 'Playlist',
   components: {
@@ -46,6 +48,7 @@ export default {
     }
   },
   created() {
+    console.log(this.type)
     this.$store.commit('updateMainNav', false)
     this.fetchSongList()
   },
@@ -56,47 +59,83 @@ export default {
         return names.join('/')
       }
     },
+    nameText() {
+      return item => {
+        if (this.type === PLAYLIST_TYPE.RECOMMEND) {
+          return item.songname
+        } else if (this.type === PLAYLIST_TYPE.SINGER) {
+          return item.name
+        } else if (this.type === PLAYLIST_TYPE.RANK) {
+          return item.name
+        }
+        return ''
+      }
+    },
     cover() {
       if (this.songlist.length > 0) {
         return this.songlist[0].songmid
       } else {
         return ''
       }
+    },
+    type() {
+      return +this.$route.query.type
     }
   },
   beforeDestroy() {
     this.$store.commit('updateMainNav', true)
     console.log('destroy')
   },
+
   methods: {
     handleBackClick() {
       this.$router.go(-1)
     },
     async fetchSongList() {
       console.log(this.$route.query)
-      //       RECOMMEND: 1,
+      // RECOMMEND: 1,
       // SINGER: 2,
       // RANK: 3
-      const map = {
+      const { type } = this.$route.query
+      const urls = {
         // 推荐
         1: '/songlist',
-        // 歌手
+        // 获取歌手热门歌曲
         2: '/singer/songs',
-        // 榜单详情
+        // 排行榜单详情
         3: '/top'
       }
-      console.log(map)
+      const config = {
+        1: 'id',
+        2: 'singermid',
+        3: 'id'
+      }
+      console.log(urls[+type])
 
-      const { data: res } = await this.$http.get('/songlist', {
+      const { data: res } = await this.$http.get(urls[+type], {
         params: {
-          id: this.$route.query.id
+          [config[+type]]: this.$route.query.id
         }
       })
-
       console.log('打印歌单详情')
-      console.log(res.data.songlist)
-      this.songlist = res.data.songlist
-      this.title = res.data.dissname
+      console.log(res)
+
+      switch (+type) {
+        case PLAYLIST_TYPE.RECOMMEND:
+          this.songlist = res.data.songlist
+          this.title = res.data.dissname
+          break
+
+        case PLAYLIST_TYPE.SINGER:
+          this.songlist = res.data.list
+          this.title = res.data.singer.name
+          break
+
+        case PLAYLIST_TYPE.RANK:
+          this.songlist = res.data.list
+          this.title = res.data.info.title
+          break
+      }
     }
   }
 }
